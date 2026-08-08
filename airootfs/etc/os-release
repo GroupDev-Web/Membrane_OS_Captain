@@ -1,0 +1,11 @@
+NAME="GPT_OS"
+PRETTY_NAME="GPT_OS Captain"
+ID=gptos
+ID_LIKE=arch
+BUILD_ID=rolling
+ANSI_COLOR="38;2;20;124;229"
+HOME_URL="https://gpt-os.example/"
+DOCUMENTATION_URL="https://gpt-os.example/docs"
+SUPPORT_URL="https://gpt-os.example/support"
+BUG_REPORT_URL="https://gpt-os.example/issues"
+LOGO=gpt-os

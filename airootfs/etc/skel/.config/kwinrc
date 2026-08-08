@@ -1,0 +1,11 @@
+[Compositing]
+Backend=OpenGL
+Enabled=true
+
+[Plugins]
+blurEnabled=true
+overviewEnabled=true
+
+[Windows]
+BorderlessMaximizedWindows=true
+ElectricBorders=1

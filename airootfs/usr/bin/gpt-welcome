@@ -1,0 +1,28 @@
+#!/usr/bin/env python3
+import pathlib, subprocess
+import gi
+gi.require_version("Gtk", "4.0"); gi.require_version("Adw", "1")
+from gi.repository import Gtk, Adw, GLib
+
+marker=pathlib.Path.home()/".config/gpt-os/first-boot"
+if not marker.exists(): raise SystemExit(0)
+Adw.init()
+
+class Welcome(Adw.Application):
+    def do_activate(self):
+        w=Adw.ApplicationWindow(application=self,title="Welcome to GPT_OS Captain")
+        w.set_default_size(820,540)
+        overlay=Gtk.Overlay(); box=Gtk.Box(orientation=Gtk.Orientation.VERTICAL,spacing=18,halign=Gtk.Align.CENTER,valign=Gtk.Align.CENTER)
+        logo=Gtk.Label(label="GPT_OS",css_classes=["title-1"]); box.append(logo)
+        sub=Gtk.Label(label="Welcome to Captain\nYour new desktop is ready.",justify=Gtk.Justification.CENTER,css_classes=["title-2"]); box.append(sub)
+        bar=Gtk.ProgressBar(); bar.set_size_request(380,-1); box.append(bar)
+        start=Gtk.Button(label="Start using GPT_DESKTOP",css_classes=["suggested-action","pill"]); start.set_visible(False)
+        def done(*_): marker.unlink(missing_ok=True); w.close()
+        start.connect("clicked",done); box.append(start); overlay.set_child(box); w.set_content(overlay); w.present()
+        state={"v":0.0}
+        def tick():
+            state["v"]+=.012; bar.set_fraction(min(state["v"],1))
+            if state["v"]>=1: bar.set_visible(False); start.set_visible(True); return False
+            return True
+        GLib.timeout_add(25,tick)
+Welcome(application_id="org.gptos.Welcome").run()

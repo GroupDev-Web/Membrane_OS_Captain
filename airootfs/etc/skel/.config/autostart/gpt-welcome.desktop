@@ -1,0 +1,6 @@
+[Desktop Entry]
+Type=Application
+Name=Welcome to GPT_OS
+Exec=/usr/local/bin/gpt-welcome
+OnlyShowIn=KDE;
+X-KDE-autostart-phase=2

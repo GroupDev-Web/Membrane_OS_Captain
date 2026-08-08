@@ -1,0 +1,10 @@
+[General]
+ColorScheme=BreezeLight
+Name=GPT_DESKTOP
+
+[KDE]
+LookAndFeelPackage=org.kde.breeze.desktop
+SingleClick=false
+
+[KFileDialog Settings]
+Show Inline Previews=true
