@@ -10,13 +10,13 @@ Adw.init()
 
 class Welcome(Adw.Application):
     def do_activate(self):
-        w=Adw.ApplicationWindow(application=self,title="Welcome to GPT_OS Captain")
+        w=Adw.ApplicationWindow(application=self,title="Welcome to Membrane OS Captain")
         w.set_default_size(820,540)
         overlay=Gtk.Overlay(); box=Gtk.Box(orientation=Gtk.Orientation.VERTICAL,spacing=18,halign=Gtk.Align.CENTER,valign=Gtk.Align.CENTER)
-        logo=Gtk.Label(label="GPT_OS",css_classes=["title-1"]); box.append(logo)
+        logo=Gtk.Label(label="Membrane OS",css_classes=["title-1"]); box.append(logo)
         sub=Gtk.Label(label="Welcome to Captain\nYour new desktop is ready.",justify=Gtk.Justification.CENTER,css_classes=["title-2"]); box.append(sub)
         bar=Gtk.ProgressBar(); bar.set_size_request(380,-1); box.append(bar)
-        start=Gtk.Button(label="Start using GPT_DESKTOP",css_classes=["suggested-action","pill"]); start.set_visible(False)
+        start=Gtk.Button(label="Start using Membrane Desktop",css_classes=["suggested-action","pill"]); start.set_visible(False)
         def done(*_): marker.unlink(missing_ok=True); w.close()
         start.connect("clicked",done); box.append(start); overlay.set_child(box); w.set_content(overlay); w.present()
         state={"v":0.0}

@@ -1,7 +1,7 @@
-# GPT_OS Captain
+# Membrane OS Captain
 
-GPT_OS Captain is an Arch Linux–based desktop distribution with a polished,
-Mac-inspired desktop session named **GPT_DESKTOP**. The project builds a
+Membrane OS Captain is an Arch Linux–based desktop distribution with a polished,
+Mac-inspired desktop session named **Membrane Desktop**. The project builds a
 bootable x86_64 live ISO with a graphical recovery environment, installer,
 automatic live-session login, and first-boot setup assistant.
 
@@ -10,9 +10,9 @@ automatic live-session login, and first-boot setup assistant.
 
 ## Included experience
 
-- GPT_DESKTOP Wayland session, built on KDE Plasma 6
+- Membrane Desktop Wayland session, built on KDE Plasma 6
 - top panel, centered floating dock, blur, rounded window decorations
-- GPT_OS Recovery with Disk Management, Terminal, Network, and installation
+- Membrane OS Recovery with Disk Management, Terminal, Network, and installation
 - guided installation with TOS, network check, disk selection, user, home name,
   computer name, timezone, and final confirmation
 - automatic live desktop boot
@@ -23,9 +23,9 @@ automatic live-session login, and first-boot setup assistant.
 
 ### GitHub Actions (easiest)
 
-Open the repository's **Actions** tab, select **Build GPT_OS Captain ISO**, and
+Open the repository's **Actions** tab, select **Build Membrane OS Captain ISO**, and
 choose **Run workflow**. When it finishes, download the
-`GPT_OS-Captain-<run number>` artifact. It contains the bootable ISO and its
+`Membrane-OS-Captain-<run number>` artifact. It contains the bootable ISO and its
 SHA-256 checksum.
 
 The workflow also runs automatically after pushes to `main`.
@@ -54,11 +54,11 @@ or QEMU first. Internet access is required during installation.
 - `airootfs/usr/bin/gpt-recovery`: recovery and installer UI
 - `airootfs/usr/lib/gpt-os/install-backend`: privileged installation backend
 - `airootfs/usr/bin/gpt-welcome`: first-boot setup assistant
-- `airootfs/etc/skel`: GPT_DESKTOP defaults
+- `airootfs/etc/skel`: Membrane Desktop defaults
 - `docs/ROADMAP.md`: path from developer preview to stable release
 
 ## Branding note
 
 The interface is inspired by the clarity and spatial layout of macOS Recovery,
-but uses original GPT_OS names, icons, colors, text, and assets. Apple logos and
+but uses original Membrane OS names, icons, colors, text, and assets. Apple logos and
 proprietary artwork are intentionally not included.

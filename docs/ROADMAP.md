@@ -3,13 +3,13 @@
 ## Developer preview (current)
 
 - bootable ArchISO profile
-- GPT_DESKTOP Plasma session and defaults
+- Membrane Desktop Plasma session and defaults
 - recovery launcher and guided whole-disk installation
 - first-boot onboarding
 
 ## Alpha
 
-- signed package repository for GPT_OS packages
+- signed package repository for Membrane OS packages
 - robust dual-boot and manual partitioning
 - recovery snapshots and reinstall-without-erasing-home
 - branded Plymouth, SDDM, GRUB/systemd-boot, icons, and wallpaper pack

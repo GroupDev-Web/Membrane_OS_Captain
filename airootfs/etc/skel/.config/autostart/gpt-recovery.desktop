@@ -1,6 +1,6 @@
 [Desktop Entry]
 Type=Application
-Name=GPT_OS Recovery
+Name=Membrane OS Recovery
 Exec=/usr/local/bin/gpt-live-session
 OnlyShowIn=KDE;
 X-KDE-autostart-after=panel

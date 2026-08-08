@@ -1,12 +1,12 @@
 #!/usr/bin/env bash
-iso_name="gpt-os"
-iso_label="GPT_OS_CAPTAIN_$(date +%Y%m)"
-iso_publisher="GPT_OS Project"
-iso_application="GPT_OS Captain Live/Recovery"
+iso_name="membrane-os-captain"
+iso_label="MEMBRANE_CAPTAIN_$(date +%Y%m)"
+iso_publisher="Membrane OS Project"
+iso_application="Membrane OS Captain Live/Recovery"
 iso_version="0.1.0-dev"
-install_dir="gptos"
+install_dir="membrane"
 buildmodes=('iso')
-bootmodes=('uefi-x64.systemd-boot.esp' 'uefi-x64.systemd-boot.uki')
+bootmodes=('uefi.systemd-boot')
 arch="x86_64"
 pacman_conf="pacman.conf"
 airootfs_image_type="squashfs"

@@ -20,7 +20,7 @@ def run(*args): subprocess.Popen(args)
 
 class Installer(Gtk.ApplicationWindow):
     def __init__(self, app):
-        super().__init__(application=app, title="Install GPT_OS Captain")
+        super().__init__(application=app, title="Install Membrane OS Captain")
         self.set_default_size(860, 600); self.set_resizable(False)
         self.data = {}; self.stack = Gtk.Stack(transition_type=Gtk.StackTransitionType.SLIDE_LEFT_RIGHT)
         self.set_child(self.stack)
@@ -52,9 +52,9 @@ class Installer(Gtk.ApplicationWindow):
         d.add_response("ok","OK"); d.present()
 
     def validate(self):
-        if self.index==0 and not self.tos.get_active(): self.alert("You must agree to the GPT_OS Terms of Service."); return False
-        if self.index==1 and subprocess.run(["nm-online","-q","--timeout=2"]).returncode: self.alert("You need a Wi‑Fi or wired network to install GPT_OS Captain."); return False
-        if self.index==2 and not self.disk.get_active_id(): self.alert("Choose a disk to install GPT_OS Captain on."); return False
+        if self.index==0 and not self.tos.get_active(): self.alert("You must agree to the Membrane OS Terms of Service."); return False
+        if self.index==1 and subprocess.run(["nm-online","-q","--timeout=2"]).returncode: self.alert("You need a Wi‑Fi or wired network to install Membrane OS Captain."); return False
+        if self.index==2 and not self.disk.get_active_id(): self.alert("Choose a disk to install Membrane OS Captain on."); return False
         if self.index==3:
             u,h=self.user.get_text(),self.home.get_text()
             if not re.fullmatch(r"[a-z_][a-z0-9_-]{0,31}",u) or not re.fullmatch(r"[a-z_][a-z0-9_-]{0,31}",h): self.alert("Username and home folder must use lowercase letters, numbers, _ or -."); return False
@@ -63,15 +63,15 @@ class Installer(Gtk.ApplicationWindow):
 
     def license_page(self):
         b=Gtk.Box(orientation=Gtk.Orientation.VERTICAL,spacing=12)
-        b.append(Gtk.Label(label="GPT_OS is provided without warranty. Installation can erase data.\nReview the full terms at gpt-os.example/terms.",wrap=True,xalign=0))
-        self.tos=Gtk.CheckButton(label="I agree to the GPT_OS Terms of Service") ; b.append(self.tos)
+        b.append(Gtk.Label(label="Membrane OS is provided without warranty. Installation can erase data.\nReview the project terms before continuing.",wrap=True,xalign=0))
+        self.tos=Gtk.CheckButton(label="I agree to the Membrane OS Terms of Service") ; b.append(self.tos)
         return self.frame("Do you agree to the TOS?","Please read the terms before installing.",b)
 
     def network_page(self):
         b=Gtk.Box(orientation=Gtk.Orientation.VERTICAL,spacing=14)
-        b.append(Gtk.Label(label="GPT_OS downloads current Arch packages during installation.",xalign=0,wrap=True))
+        b.append(Gtk.Label(label="Membrane OS downloads current Arch packages during installation.",xalign=0,wrap=True))
         x=Gtk.Button(label="Open Network Settings"); x.connect("clicked",lambda *_:run("plasmawindowed","org.kde.plasma.networkmanagement")); b.append(x)
-        return self.frame("Connect to the internet","You need a Wi‑Fi network to install GPT_OS Captain.",b)
+        return self.frame("Connect to the internet","You need a Wi‑Fi network to install Membrane OS Captain.",b)
 
     def disk_page(self):
         b=Gtk.Box(orientation=Gtk.Orientation.VERTICAL,spacing=12)
@@ -82,7 +82,7 @@ class Installer(Gtk.ApplicationWindow):
         b.append(self.disk)
         warn=Gtk.Label(label="The selected disk will be completely erased. Back up your files first.",wrap=True,xalign=0); warn.add_css_class("error"); b.append(warn)
         x=Gtk.Button(label="Open Disk Management"); x.connect("clicked",lambda *_:run("pkexec","gparted")); b.append(x)
-        return self.frame("Choose a disk","Choose a disk/partition to install GPT_OS Captain on.",b)
+        return self.frame("Choose a disk","Choose a disk/partition to install Membrane OS Captain on.",b)
 
     def account_page(self):
         g=Gtk.Grid(column_spacing=14,row_spacing=14)
@@ -93,7 +93,7 @@ class Installer(Gtk.ApplicationWindow):
 
     def computer_page(self):
         g=Gtk.Grid(column_spacing=14,row_spacing=14)
-        self.hostname=Gtk.Entry(text="gpt-os"); self.timezone=Gtk.Entry(text="UTC")
+        self.hostname=Gtk.Entry(text="membrane-os"); self.timezone=Gtk.Entry(text="UTC")
         g.attach(Gtk.Label(label="Computer name",xalign=0),0,0,1,1); g.attach(self.hostname,1,0,1,1)
         g.attach(Gtk.Label(label="Timezone",xalign=0),0,1,1,1); g.attach(self.timezone,1,1,1,1)
         return self.frame("Name your PC","This name identifies your computer on local networks.",g)
@@ -103,22 +103,22 @@ class Installer(Gtk.ApplicationWindow):
         return self.frame("Ready to install","Review your choices. This cannot be undone.",self.review,True)
 
     def refresh_review(self):
-        self.review.set_text(f"Edition: GPT_OS Captain\nDisk: {self.disk.get_active_id()} (ERASED)\nUser: {self.user.get_text()}\nHome: /home/{self.home.get_text()}\nComputer: {self.hostname.get_text()}\nTimezone: {self.timezone.get_text()}")
+        self.review.set_text(f"Edition: Membrane OS Captain\nDisk: {self.disk.get_active_id()} (ERASED)\nUser: {self.user.get_text()}\nHome: /home/{self.home.get_text()}\nComputer: {self.hostname.get_text()}\nTimezone: {self.timezone.get_text()}")
 
     def install(self,*_):
         args=["pkexec","/usr/lib/gpt-os/install-backend",self.disk.get_active_id(),self.user.get_text(),self.home.get_text(),self.hostname.get_text(),self.timezone.get_text(),self.password.get_text()]
         p=subprocess.Popen(args); p.wait()
-        d=Adw.MessageDialog(transient_for=self,heading="Installation complete" if p.returncode==0 else "Installation failed",body="Restart to begin using GPT_OS Captain." if p.returncode==0 else "No changes are guaranteed. Review /tmp/gpt-os-install.log before retrying.")
+        d=Adw.MessageDialog(transient_for=self,heading="Installation complete" if p.returncode==0 else "Installation failed",body="Restart to begin using Membrane OS Captain." if p.returncode==0 else "No changes are guaranteed. Review /tmp/gpt-os-install.log before retrying.")
         d.add_response("ok","OK"); d.present()
 
 class Recovery(Gtk.Application):
     def do_activate(self):
-        win=Adw.ApplicationWindow(application=self,title="GPT_OS Recovery"); win.set_default_size(960,650)
+        win=Adw.ApplicationWindow(application=self,title="Membrane OS Recovery"); win.set_default_size(960,650)
         box=Gtk.Box(orientation=Gtk.Orientation.VERTICAL,spacing=18,halign=Gtk.Align.CENTER,valign=Gtk.Align.CENTER)
-        t=Gtk.Label(label="GPT_OS Recovery"); t.add_css_class("hero"); box.append(t)
-        box.append(Gtk.Label(label="Repair, manage, or install GPT_OS Captain.",css_classes=["sub"]))
+        t=Gtk.Label(label="Membrane OS Recovery"); t.add_css_class("hero"); box.append(t)
+        box.append(Gtk.Label(label="Repair, manage, or install Membrane OS Captain.",css_classes=["sub"]))
         grid=Gtk.Grid(column_spacing=12,row_spacing=12)
-        actions=[("Install GPT_OS Captain",lambda *_:Installer(self).present()),("Open Disk Management",lambda *_:run("pkexec","gparted")),("Network Settings",lambda *_:run("plasmawindowed","org.kde.plasma.networkmanagement")),("Terminal",lambda *_:run("konsole")),("Restart",lambda *_:run("systemctl","reboot")),("Shut Down",lambda *_:run("systemctl","poweroff"))]
+        actions=[("Install Membrane OS Captain",lambda *_:Installer(self).present()),("Open Disk Management",lambda *_:run("pkexec","gparted")),("Network Settings",lambda *_:run("plasmawindowed","org.kde.plasma.networkmanagement")),("Terminal",lambda *_:run("konsole")),("Restart",lambda *_:run("systemctl","reboot")),("Shut Down",lambda *_:run("systemctl","poweroff"))]
         for i,(label,cb) in enumerate(actions): b=Gtk.Button(label=label); b.set_size_request(260,70); b.connect("clicked",cb); grid.attach(b,i%2,i//2,1,1)
         box.append(grid); win.set_content(box); win.present()
 
