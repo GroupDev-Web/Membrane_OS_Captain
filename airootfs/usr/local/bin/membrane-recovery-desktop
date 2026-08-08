@@ -1,13 +1,22 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
-for _ in {1..40}; do
-    if qdbus6 org.kde.plasmashell /PlasmaShell >/dev/null 2>&1; then
-        qdbus6 org.kde.plasmashell /PlasmaShell org.kde.PlasmaShell.evaluateScript \
-            "$(cat /usr/local/share/membrane-os/recovery-desktop.js)"
+wallpaper=/usr/share/wallpapers/MembraneOS-Dark/contents/images/1920x1080.png
+
+# Plasma can take substantially longer than ten seconds to become available on
+# software-rendered VMs.  Keep trying until the shell is genuinely ready.
+for _ in {1..120}; do
+    if qdbus6 org.kde.plasmashell /PlasmaShell \
+        org.kde.PlasmaShell.evaluateScript \
+        "$(cat /usr/local/share/membrane-os/recovery-desktop.js)"; then
+        # Plasma 6's supported wallpaper helper also updates existing
+        # containments, including ones restored after the script above ran.
+        if command -v plasma-apply-wallpaperimage >/dev/null 2>&1; then
+            plasma-apply-wallpaperimage "$wallpaper" || true
+        fi
         exit 0
     fi
-    sleep 0.25
+    sleep 1
 done
 
 exit 1
