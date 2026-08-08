@@ -9,7 +9,6 @@ networkmanager
 network-manager-applet
 iwd
 plasma-meta
-plasma-wayland-session
 kde-system-meta
 sddm
 konsole
