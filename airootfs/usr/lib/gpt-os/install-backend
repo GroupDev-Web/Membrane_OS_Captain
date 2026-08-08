@@ -26,7 +26,7 @@ mount -o subvol=@,compress=zstd,noatime "$root" /mnt
 mkdir -p /mnt/{boot,home}
 mount -o subvol=@home,compress=zstd,noatime "$root" /mnt/home
 mount "$esp" /mnt/boot
-pacstrap -K /mnt base linux linux-firmware networkmanager plasma-meta sddm konsole dolphin firefox sudo grub efibootmgr pipewire pipewire-pulse wireplumber
+pacstrap -K /mnt base linux linux-firmware networkmanager plasma-meta plasma-x11-session sddm konsole dolphin firefox sudo grub efibootmgr pipewire pipewire-pulse wireplumber
 genfstab -U /mnt >> /mnt/etc/fstab
 cp -a /etc/skel/. /mnt/etc/skel/
 cp -a /usr/bin/gpt-welcome /mnt/usr/local/bin/gpt-welcome
