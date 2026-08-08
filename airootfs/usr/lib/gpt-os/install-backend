@@ -11,11 +11,35 @@ disk="$1" user="$2" home_name="$3" host="$4" timezone="$5" password="$6"
 
 swapoff -a || true
 umount -R /mnt 2>/dev/null || true
+
+# A previously formatted virtual disk may have been auto-mounted by udisks.
+# Unmount every child of the selected disk before replacing its partition table.
+mapfile -t disk_children < <(lsblk -lnpo NAME "$disk" | tail -n +2 | tac)
+for device in "${disk_children[@]}"; do
+    while read -r target; do
+        [[ -n "$target" ]] && umount "$target"
+    done < <(findmnt -rn -S "$device" -o TARGET || true)
+    swapoff "$device" 2>/dev/null || true
+done
+
+# Remove stale signatures from the children first, then from the whole disk.
+for device in "${disk_children[@]}"; do
+    wipefs -af "$device" 2>/dev/null || true
+done
 wipefs -af "$disk"
 parted -s "$disk" mklabel gpt mkpart ESP fat32 1MiB 1025MiB set 1 esp on mkpart MEMBRANE btrfs 1025MiB 100%
 suffix=""; [[ "$disk" =~ [0-9]$ ]] && suffix=p
 esp="${disk}${suffix}1" root="${disk}${suffix}2"
+partprobe "$disk"
+blockdev --rereadpt "$disk" 2>/dev/null || true
 udevadm settle
+for device in "$esp" "$root"; do
+    for _ in {1..50}; do
+        [[ -b "$device" ]] && break
+        sleep 0.1
+    done
+    [[ -b "$device" ]] || { echo "Partition device did not appear: $device"; exit 5; }
+done
 mkfs.fat -F32 -n MEMBRANEEFI "$esp"
 mkfs.btrfs -f -L MEMBRANE_OS "$root"
 mount "$root" /mnt
