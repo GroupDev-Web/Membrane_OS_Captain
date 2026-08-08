@@ -1,4 +1,4 @@
-var wallpaper = "file:///usr/share/wallpapers/MembraneOS/contents/images/1920x1080.svg";
+var wallpaper = "file:///usr/share/wallpapers/MembraneOS-Dark/contents/images/1920x1080.png";
 
 for (var i = 0; i < desktops().length; i++) {
     var desktop = desktops()[i];

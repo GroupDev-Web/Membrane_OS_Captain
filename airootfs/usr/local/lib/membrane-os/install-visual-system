@@ -1,0 +1,148 @@
+#!/usr/bin/env bash
+set -euo pipefail
+
+icons=/usr/share/icons/Membrane
+mkdir -p "$icons/scalable/apps" /usr/share/color-schemes \
+  /usr/share/plasma/look-and-feel /usr/share/plasma/desktoptheme
+
+cat > "$icons/index.theme" <<'EOF'
+[Icon Theme]
+Name=Membrane
+Comment=Membrane OS Captain application icons
+Inherits=breeze-dark,breeze,hicolor
+Directories=scalable/apps
+
+[scalable/apps]
+Size=64
+MinSize=16
+MaxSize=512
+Type=Scalable
+Context=Applications
+EOF
+
+icon() {
+  local name="$1" glyph="$2" accent="$3" accent2="$4"
+  cat > "$icons/scalable/apps/$name.svg" <<EOF
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 64 64">
+ <defs><linearGradient id="g" x1="8" y1="4" x2="56" y2="60" gradientUnits="userSpaceOnUse"><stop stop-color="$accent"/><stop offset="1" stop-color="$accent2"/></linearGradient><filter id="s"><feDropShadow dy="2" stdDeviation="2" flood-opacity=".28"/></filter></defs>
+ <rect x="5" y="5" width="54" height="54" rx="15" fill="#101521" filter="url(#s)"/>
+ <rect x="7" y="7" width="50" height="50" rx="13" fill="url(#g)"/>
+ <path d="M13 18c9-10 29-11 38 0" fill="none" stroke="#fff" stroke-opacity=".28" stroke-width="3" stroke-linecap="round"/>
+ $glyph
+</svg>
+EOF
+}
+
+icon system-software-install '<path d="M20 18h24l5 10v18H15V28zm0 10h24M25 37h14M32 31v12" fill="none" stroke="#fff" stroke-width="4" stroke-linecap="round" stroke-linejoin="round"/>' '#7668ff' '#36c4ff'
+icon system-file-manager '<path d="M15 24h14l4-5h16v27H15z" fill="#fff" fill-opacity=".92"/><path d="M19 30h26" stroke="#238ddd" stroke-width="3"/>' '#26a7ff' '#4865ff'
+icon ark '<path d="M18 17h28v31H18z" fill="#fff" fill-opacity=".93"/><path d="M29 17v7h6v6h-6v6h6v6h-6" fill="none" stroke="#7356df" stroke-width="4"/>' '#9b72ff' '#5b4ccf'
+icon utilities-terminal '<path d="M16 18h32v28H16z" fill="#101521" stroke="#fff" stroke-width="3"/><path d="m22 27 6 5-6 5m10 1h9" fill="none" stroke="#73f4bd" stroke-width="3" stroke-linecap="round"/>' '#26364c' '#121923'
+icon firefox '<path d="M46 18c-7-8-22-5-27 6-5 12 4 25 17 24 10-1 17-9 16-18-1-7-5-10-9-13 2 5 0 9-3 11-1-7-7-8-12-5 4 0 8 4 8 9 0 7-9 9-13 4-5-5-2-14 5-17 5-3 11-2 15 2 2-3 3-6 3-9z" fill="#fff"/>' '#ff9438' '#ef3e72'
+icon gwenview '<path d="M16 19h32v27H16z" fill="#fff" fill-opacity=".9"/><circle cx="39" cy="27" r="4" fill="#ffd55c"/><path d="m19 42 9-10 6 6 5-5 7 9" fill="#39a975"/>' '#32c7a1' '#1680d8'
+icon spectacle '<path d="M16 23h9l3-5h9l3 5h8v24H16z" fill="#fff" fill-opacity=".94"/><circle cx="32" cy="35" r="8" fill="none" stroke="#e44f86" stroke-width="4"/>' '#ff6699' '#a654db'
+icon okular '<path d="M20 15h21l7 7v27H20z" fill="#fff"/><path d="M41 15v8h7M25 31h17M25 37h17M25 43h11" stroke="#df496d" stroke-width="3"/>' '#ff6687' '#c83e65'
+icon partitionmanager '<circle cx="32" cy="32" r="17" fill="#fff" fill-opacity=".92"/><path d="M32 15v17h17" fill="#56b7ff"/><circle cx="32" cy="32" r="6" fill="#304e7c"/>' '#47c9ff' '#3768d9'
+icon systemsettings '<path d="M32 15l5 4 6-1 3 6 5 3-2 6 2 6-5 3-3 6-6-1-5 4-5-4-6 1-3-6-5-3 2-6-2-6 5-3 3-6 6 1z" fill="#fff"/><circle cx="32" cy="33" r="8" fill="#477be7"/>' '#65a6ff' '#6a59df'
+icon utilities-system-monitor '<path d="M15 18h34v29H15z" fill="#fff" fill-opacity=".93"/><path d="m19 36 7-7 5 10 7-16 7 10" fill="none" stroke="#27b579" stroke-width="4" stroke-linejoin="round"/>' '#35d79a' '#1684b7'
+icon hwinfo '<circle cx="32" cy="32" r="18" fill="#fff"/><path d="M32 28v13m0-21v2" stroke="#4b77e9" stroke-width="5" stroke-linecap="round"/>' '#55b7ff' '#6b5ce7'
+icon kate '<path d="M19 15h26v34H19z" fill="#fff"/><path d="m25 39 14-14m-4-2 6 6-14 14-7 1 1-7z" fill="#7e63e8"/>' '#9a79ff' '#526fe3'
+icon accessories-calculator '<rect x="18" y="14" width="28" height="36" rx="4" fill="#fff"/><path d="M23 20h18v8H23zm1 14h4m5 0h4m5 0h0M24 41h4m5 0h4m5 0h0" stroke="#3c76df" stroke-width="4" stroke-linecap="round"/>' '#5eb7ff' '#4961d3'
+icon filelight '<circle cx="32" cy="32" r="18" fill="#fff"/><path d="M32 32V14a18 18 0 0 1 15 28z" fill="#ff6696"/><path d="M32 32 47 42a18 18 0 0 1-29 2z" fill="#43bde6"/>' '#ff9a5b' '#9b55dd'
+icon membrane-recovery '<path d="M32 14 49 24v17L32 51 15 41V24z" fill="#fff"/><path d="m23 37 9-15 9 15-9 5z" fill="#6757e8"/>' '#826eff' '#39a9e8'
+
+# Desktop-file aliases used by KDE applications and distributions.
+for pair in \
+ 'plasma-discover system-software-install' 'org.kde.discover system-software-install' \
+ 'dolphin system-file-manager' 'org.kde.dolphin system-file-manager' \
+ 'org.kde.ark ark' 'konsole utilities-terminal' 'org.kde.konsole utilities-terminal' \
+ 'org.mozilla.firefox firefox' 'org.kde.gwenview gwenview' 'org.kde.spectacle spectacle' \
+ 'org.kde.okular okular' 'gparted partitionmanager' 'org.kde.partitionmanager partitionmanager' \
+ 'org.kde.systemsettings systemsettings' 'plasma-systemmonitor utilities-system-monitor' \
+ 'org.kde.kinfocenter hwinfo' 'org.kde.kate kate' 'org.kde.kcalc accessories-calculator' \
+ 'org.kde.filelight filelight' 'gpt-recovery membrane-recovery'; do
+  set -- $pair; ln -sfn "$2.svg" "$icons/scalable/apps/$1.svg"
+done
+
+write_colors() {
+ local name="$1" bg="$2" alt="$3" fg="$4" accent="$5" inactive="$6"
+ cat > "/usr/share/color-schemes/$name.colors" <<EOF
+[General]
+Name=$name
+ColorScheme=$name
+[Colors:Window]
+BackgroundNormal=$bg
+BackgroundAlternate=$alt
+ForegroundNormal=$fg
+ForegroundInactive=$inactive
+[Colors:View]
+BackgroundNormal=$bg
+BackgroundAlternate=$alt
+ForegroundNormal=$fg
+ForegroundInactive=$inactive
+DecorationFocus=$accent
+DecorationHover=$accent
+[Colors:Button]
+BackgroundNormal=$alt
+ForegroundNormal=$fg
+DecorationFocus=$accent
+DecorationHover=$accent
+[Colors:Selection]
+BackgroundNormal=$accent
+ForegroundNormal=255,255,255
+[WM]
+activeBackground=$bg
+activeForeground=$fg
+inactiveBackground=$alt
+inactiveForeground=$inactive
+EOF
+}
+write_colors MembraneDark '20,24,35' '31,37,52' '239,243,255' '105,134,255' '151,160,184'
+write_colors MembraneLight '245,247,252' '229,234,245' '25,31,45' '76,103,220' '91,101,124'
+
+make_plasma_theme() {
+ local id="$1" base="$2" opacity="$3"
+ local dir="/usr/share/plasma/desktoptheme/$id"
+ mkdir -p "$dir/widgets"
+ cat > "$dir/metadata.json" <<EOF
+{"KPackageStructure":"Plasma/Theme","KPlugin":{"Id":"$id","Name":"$id","Description":"Membrane OS Liquid Glue glass surface","Version":"1.0","License":"GPL-3.0","Authors":[{"Name":"Membrane OS"}]},"X-Plasma-API":"5.0"}
+EOF
+ cat > "$dir/widgets/panel-background.svg" <<EOF
+<svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect id="center" x="8" y="8" width="48" height="48" rx="14" fill="$base" fill-opacity="$opacity"/><path id="hint-stretch-borders" d="M31 31h2v2h-2z" fill="#000" fill-opacity="0"/><path id="hint-compose-over-border" d="M0 0h1v1H0z"/></svg>
+EOF
+}
+make_plasma_theme MembraneLiquidGlueDark '#111725' .70
+make_plasma_theme MembraneLiquidGlueLight '#f5f8ff' .76
+
+make_lnf() {
+ local id="$1" title="$2" scheme="$3" plasma="$4" wallpaper="$5" liquid="$6"
+ local dir="/usr/share/plasma/look-and-feel/$id"
+ mkdir -p "$dir/contents"
+ cat > "$dir/metadata.json" <<EOF
+{"KPackageStructure":"Plasma/LookAndFeel","KPlugin":{"Id":"$id","Name":"$title","Description":"Membrane OS Captain global theme","Version":"1.0","License":"GPL-3.0","Authors":[{"Name":"Membrane OS"}]},"X-Plasma-API":"5.0"}
+EOF
+ cat > "$dir/contents/defaults" <<EOF
+[kdeglobals][General]
+ColorScheme=$scheme
+[kdeglobals][KDE]
+LookAndFeelPackage=$id
+widgetStyle=Breeze
+[kdeglobals][Icons]
+Theme=Membrane
+[plasmarc][Theme]
+name=$plasma
+[kwinrc][Compositing]
+Enabled=true
+[kwinrc][Plugins]
+blurEnabled=$liquid
+contrastEnabled=$liquid
+[Wallpaper][org.kde.image][General]
+Image=file:///usr/share/wallpapers/$wallpaper/contents/images/1920x1080.png
+FillMode=2
+EOF
+}
+make_lnf org.membrane.dark.liquidglue 'Membrane Dark + Liquid Glue' MembraneDark MembraneLiquidGlueDark MembraneOS-Dark true
+make_lnf org.membrane.light.liquidglue 'Membrane Light + Liquid Glue' MembraneLight MembraneLiquidGlueLight MembraneOS-Light true
+make_lnf org.membrane.dark 'Membrane Dark' MembraneDark breeze-dark MembraneOS-Dark false
+make_lnf org.membrane.light 'Membrane Light' MembraneLight breeze-light MembraneOS-Light false
+
+gtk-update-icon-cache -f "$icons" >/dev/null 2>&1 || true

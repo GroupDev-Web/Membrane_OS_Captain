@@ -10,11 +10,13 @@ network-manager-applet
 iwd
 plasma-meta
 plasma-x11-session
+kdeplasma-addons
 kde-system-meta
 sddm
 konsole
 dolphin
 ark
+discover
 gwenview
 spectacle
 okular

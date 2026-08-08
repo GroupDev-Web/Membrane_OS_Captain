@@ -1,10 +1,14 @@
 [General]
-ColorScheme=BreezeLight
+ColorScheme=MembraneDark
 Name=Membrane Desktop
 
 [KDE]
-LookAndFeelPackage=org.kde.breeze.desktop
+LookAndFeelPackage=org.membrane.dark.liquidglue
+widgetStyle=Breeze
 SingleClick=false
+
+[Icons]
+Theme=Membrane
 
 [KFileDialog Settings]
 Show Inline Previews=true
