@@ -29,12 +29,9 @@ jobs:
             bash -euc '
               pacman -Syu --noconfirm --needed archiso
               ./build.sh
+              cd out
+              sha256sum *.iso > SHA256SUMS
             '
-
-      - name: Record checksums
-        run: |
-          cd out
-          sha256sum *.iso | tee SHA256SUMS
 
       - name: Upload bootable ISO
         uses: actions/upload-artifact@v4
