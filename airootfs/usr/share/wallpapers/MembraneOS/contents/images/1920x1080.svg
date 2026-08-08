@@ -1,0 +1,24 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="1920" height="1080" viewBox="0 0 1920 1080">
+  <defs>
+    <linearGradient id="bg" x1="0" y1="0" x2="1" y2="1">
+      <stop offset="0" stop-color="#09111f"/>
+      <stop offset="0.52" stop-color="#172554"/>
+      <stop offset="1" stop-color="#312e81"/>
+    </linearGradient>
+    <radialGradient id="glow" cx="50%" cy="45%" r="55%">
+      <stop offset="0" stop-color="#67e8f9" stop-opacity=".30"/>
+      <stop offset="1" stop-color="#67e8f9" stop-opacity="0"/>
+    </radialGradient>
+  </defs>
+  <rect width="1920" height="1080" fill="url(#bg)"/>
+  <rect width="1920" height="1080" fill="url(#glow)"/>
+  <g fill="none" stroke="#a5f3fc" stroke-opacity=".16" stroke-width="2">
+    <path d="M-80 850C310 620 590 1010 980 760s650-90 1020-310"/>
+    <path d="M-100 930C300 700 620 1050 1010 820s650-100 1010-330"/>
+    <path d="M-120 1010C290 790 640 1100 1040 890s650-100 1010-330"/>
+  </g>
+  <g transform="translate(960 505)" text-anchor="middle" fill="#f8fafc">
+    <text y="0" font-family="Noto Sans, DejaVu Sans, sans-serif" font-size="76" font-weight="700" letter-spacing="3">MEMBRANE OS</text>
+    <text y="58" font-family="Noto Sans, DejaVu Sans, sans-serif" font-size="25" letter-spacing="12" fill="#a5f3fc">CAPTAIN</text>
+  </g>
+</svg>
