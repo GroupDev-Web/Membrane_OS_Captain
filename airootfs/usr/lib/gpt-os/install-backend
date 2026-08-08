@@ -18,8 +18,16 @@ unmount_install_tree() {
     for attempt in {1..10}; do
         mountpoint -q /mnt || return 0
         umount -R /mnt 2>/dev/null && return 0
+
+        # pacstrap's target keyring can leave a gpg-agent attached to files
+        # below /mnt, including after an interrupted installation. Ask that
+        # exact agent to stop, then terminate only processes still using the
+        # installation mount. The backend itself runs from / and is unaffected.
+        gpgconf --homedir /mnt/etc/pacman.d/gnupg --kill gpg-agent \
+            2>/dev/null || true
+        fuser -km -TERM -- /mnt 2>/dev/null || true
         sync
-        sleep 0.2
+        sleep 0.5
     done
     echo "Unable to release installation mount /mnt"
     findmnt -R /mnt || true
