@@ -31,15 +31,80 @@ jobs:
               ./build.sh
               cd out
               sha256sum *.iso > SHA256SUMS
+              mkdir -p chunks
+              split -b 350M -d -a 2 --additional-suffix=.part *.iso chunks/membrane.iso.
             '
 
-      - name: Upload bootable ISO
+      - name: Upload checksum
         uses: actions/upload-artifact@v4
         with:
-          name: Membrane-OS-Captain-${{ github.run_number }}
-          path: |
-            out/*.iso
-            out/SHA256SUMS
+          name: Membrane-OS-Captain-${{ github.run_number }}-checksum
+          path: out/SHA256SUMS
           if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+
+      - name: Upload ISO chunk 00
+        uses: actions/upload-artifact@v4
+        with:
+          name: Membrane-OS-Captain-${{ github.run_number }}-part-00
+          path: out/chunks/membrane.iso.00.part
+          if-no-files-found: error
+          compression-level: 0
+          retention-days: 30
+
+      - name: Upload ISO chunk 01
+        uses: actions/upload-artifact@v4
+        with:
+          name: Membrane-OS-Captain-${{ github.run_number }}-part-01
+          path: out/chunks/membrane.iso.01.part
+          compression-level: 0
+          retention-days: 30
+
+      - name: Upload ISO chunk 02
+        uses: actions/upload-artifact@v4
+        with:
+          name: Membrane-OS-Captain-${{ github.run_number }}-part-02
+          path: out/chunks/membrane.iso.02.part
+          compression-level: 0
+          retention-days: 30
+
+      - name: Upload ISO chunk 03
+        uses: actions/upload-artifact@v4
+        with:
+          name: Membrane-OS-Captain-${{ github.run_number }}-part-03
+          path: out/chunks/membrane.iso.03.part
+          compression-level: 0
+          retention-days: 30
+
+      - name: Upload ISO chunk 04
+        uses: actions/upload-artifact@v4
+        with:
+          name: Membrane-OS-Captain-${{ github.run_number }}-part-04
+          path: out/chunks/membrane.iso.04.part
+          compression-level: 0
+          retention-days: 30
+
+      - name: Upload ISO chunk 05
+        uses: actions/upload-artifact@v4
+        with:
+          name: Membrane-OS-Captain-${{ github.run_number }}-part-05
+          path: out/chunks/membrane.iso.05.part
+          compression-level: 0
+          retention-days: 30
+
+      - name: Upload ISO chunk 06
+        uses: actions/upload-artifact@v4
+        with:
+          name: Membrane-OS-Captain-${{ github.run_number }}-part-06
+          path: out/chunks/membrane.iso.06.part
+          compression-level: 0
+          retention-days: 30
+
+      - name: Upload ISO chunk 07
+        uses: actions/upload-artifact@v4
+        with:
+          name: Membrane-OS-Captain-${{ github.run_number }}-part-07
+          path: out/chunks/membrane.iso.07.part
           compression-level: 0
           retention-days: 30
