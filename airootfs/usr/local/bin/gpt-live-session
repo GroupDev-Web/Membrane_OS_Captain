@@ -1,4 +1,11 @@
 #!/usr/bin/env bash
 set -euo pipefail
 systemctl --user import-environment DISPLAY WAYLAND_DISPLAY XDG_CURRENT_DESKTOP || true
+
+# GTK 4's GPU renderer can draw widget backgrounds but lose every glyph on
+# QEMU and VirtualBox virtual GPUs. Recovery is a small UI, so prefer Cairo's
+# reliable software renderer over an accelerated but unreadable screen.
+export GSK_RENDERER=cairo
+export LIBGL_ALWAYS_SOFTWARE=1
+
 exec gpt-recovery
