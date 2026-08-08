@@ -1,0 +1,29 @@
+#!/usr/bin/env bash
+set -euo pipefail
+[[ $EUID -eq 0 ]] || { echo 'Administrator access is required.'; exit 1; }
+repo=GroupDev-Web/Membrane_OS_Captain
+requested=${1:-}
+[[ "$requested" =~ ^[0-9a-f]{40}$ ]] || { echo 'Invalid update revision.'; exit 2; }
+tmp=$(mktemp -d /tmp/membrane-update.XXXXXX)
+trap 'rm -rf "$tmp"' EXIT
+echo 'Downloading the Membrane OS update...'
+curl -fL --retry 3 --connect-timeout 10 "https://github.com/$repo/archive/$requested.tar.gz" -o "$tmp/update.tar.gz"
+tar -xzf "$tmp/update.tar.gz" -C "$tmp"
+src=$(find "$tmp" -mindepth 1 -maxdepth 1 -type d -name 'Membrane_OS_Captain-*' -print -quit)
+[[ -n "$src" ]] || { echo 'The update package is invalid.'; exit 3; }
+echo 'Updating Arch Linux packages...'
+pacman -Syu --noconfirm
+echo 'Installing Membrane OS components...'
+/usr/bin/bash "$src/airootfs/usr/local/lib/membrane-os/install-visual-system"
+install -Dm755 "$src/airootfs/usr/lib/membrane-os/check-update" /usr/lib/membrane-os/check-update
+install -Dm755 "$src/airootfs/usr/lib/membrane-os/install-update" /usr/lib/membrane-os/install-update
+install -Dm644 "$src/airootfs/usr/lib/systemd/user/membrane-update-check.service" /usr/lib/systemd/user/membrane-update-check.service
+install -Dm644 "$src/airootfs/usr/lib/systemd/user/membrane-update-check.timer" /usr/lib/systemd/user/membrane-update-check.timer
+for app in gpt-welcome gpt-recovery; do
+  [[ -f "$src/airootfs/usr/bin/$app" ]] && install -Dm755 "$src/airootfs/usr/bin/$app" "/usr/bin/$app"
+done
+mkdir -p /etc/membrane-os
+printf '%s\n' "$requested" > /etc/membrane-os/revision
+systemctl daemon-reload
+echo
+echo 'Membrane OS is up to date. Restart when convenient.'

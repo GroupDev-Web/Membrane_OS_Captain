@@ -14,6 +14,8 @@ systemctl mask systemd-firstboot.service
 # Build Membrane's icon, color, Plasma and global-theme packages before the
 # live user's profile is created. Dark + Liquid Glue is the default.
 /usr/bin/bash /usr/local/lib/membrane-os/install-visual-system
+mkdir -p /etc/membrane-os
+[[ -s /etc/membrane-os/revision ]] || echo unknown > /etc/membrane-os/revision
 
 # Make GTK/Pango fonts available immediately on the first live boot.
 fc-cache -f

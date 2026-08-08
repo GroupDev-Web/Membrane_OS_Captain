@@ -22,6 +22,8 @@ jobs:
 
       - name: Build ISO with ArchISO
         run: |
+          install -Dm644 /dev/null airootfs/etc/membrane-os/revision
+          printf '%s\n' "$GITHUB_SHA" > airootfs/etc/membrane-os/revision
           docker run --rm --privileged \
             -v "$GITHUB_WORKSPACE:/src" \
             -w /src \

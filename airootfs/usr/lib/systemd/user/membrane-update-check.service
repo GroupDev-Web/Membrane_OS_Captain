@@ -1,0 +1,7 @@
+[Unit]
+Description=Check for Membrane OS updates
+After=network-online.target graphical-session.target
+
+[Service]
+Type=oneshot
+ExecStart=/usr/lib/membrane-os/check-update

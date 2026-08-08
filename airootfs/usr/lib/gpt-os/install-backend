@@ -68,7 +68,7 @@ mount -o subvol=@,compress=zstd,noatime "$root" /mnt
 mkdir -p /mnt/{boot,home}
 mount -o subvol=@home,compress=zstd,noatime "$root" /mnt/home
 mount "$esp" /mnt/boot
-pacstrap -K /mnt base linux linux-firmware networkmanager plasma-meta plasma-x11-session kdeplasma-addons sddm konsole dolphin ark discover gwenview spectacle okular firefox sudo grub efibootmgr pipewire pipewire-pulse wireplumber
+pacstrap -K /mnt base curl linux linux-firmware networkmanager plasma-meta plasma-x11-session kdeplasma-addons sddm konsole dolphin ark discover gwenview spectacle okular firefox sudo grub efibootmgr pipewire pipewire-pulse wireplumber
 genfstab -U /mnt >> /mnt/etc/fstab
 cp -a /etc/skel/. /mnt/etc/skel/
 cp -a /usr/bin/gpt-welcome /mnt/usr/local/bin/gpt-welcome
@@ -78,6 +78,11 @@ cp -a /usr/share/color-schemes/Membrane*.colors /mnt/usr/share/color-schemes/
 cp -a /usr/share/plasma/look-and-feel/org.membrane.* /mnt/usr/share/plasma/look-and-feel/
 cp -a /usr/share/plasma/desktoptheme/Membrane* /mnt/usr/share/plasma/desktoptheme/
 cp -a /usr/share/wallpapers/MembraneOS-* /mnt/usr/share/wallpapers/
+cp -a /usr/lib/membrane-os /mnt/usr/lib/
+cp -a /usr/lib/systemd/user/membrane-update-check.* /mnt/usr/lib/systemd/user/
+mkdir -p /mnt/etc/systemd/user/timers.target.wants
+ln -sfn /usr/lib/systemd/user/membrane-update-check.timer /mnt/etc/systemd/user/timers.target.wants/membrane-update-check.timer
+install -Dm644 /etc/membrane-os/revision /mnt/etc/membrane-os/revision
 echo "$host" > /mnt/etc/hostname
 ln -sf "/usr/share/zoneinfo/$timezone" /mnt/etc/localtime
 arch-chroot /mnt hwclock --systohc
