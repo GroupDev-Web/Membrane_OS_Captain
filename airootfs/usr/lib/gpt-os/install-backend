@@ -9,8 +9,26 @@ disk="$1" user="$2" home_name="$3" host="$4" timezone="$5" password="$6"
 [[ "$host" =~ ^[A-Za-z0-9][A-Za-z0-9.-]{0,62}$ ]] || exit 4
 [[ -e "/usr/share/zoneinfo/$timezone" ]] || timezone=UTC
 
+# Never inherit a working directory below the installation target. A process
+# whose cwd is inside /mnt keeps the mount busy even when no files are open.
+cd /
+
+unmount_install_tree() {
+    local attempt
+    for attempt in {1..10}; do
+        mountpoint -q /mnt || return 0
+        umount -R /mnt 2>/dev/null && return 0
+        sync
+        sleep 0.2
+    done
+    echo "Unable to release installation mount /mnt"
+    findmnt -R /mnt || true
+    fuser -vm /mnt || true
+    return 1
+}
+
 swapoff -a || true
-umount -R /mnt 2>/dev/null || true
+unmount_install_tree
 
 # A previously formatted virtual disk may have been auto-mounted by udisks.
 # Unmount every child of the selected disk before replacing its partition table.
@@ -45,7 +63,7 @@ mkfs.btrfs -f -L MEMBRANE_OS "$root"
 mount "$root" /mnt
 btrfs subvolume create /mnt/@
 btrfs subvolume create /mnt/@home
-umount /mnt
+unmount_install_tree
 mount -o subvol=@,compress=zstd,noatime "$root" /mnt
 mkdir -p /mnt/{boot,home}
 mount -o subvol=@home,compress=zstd,noatime "$root" /mnt/home
