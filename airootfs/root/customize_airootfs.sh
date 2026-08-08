@@ -11,6 +11,9 @@ ln -sf /usr/share/zoneinfo/UTC /etc/localtime
 printf 'LANG=en_US.UTF-8\n' > /etc/locale.conf
 systemctl mask systemd-firstboot.service
 
+# Make GTK/Pango fonts available immediately on the first live boot.
+fc-cache -f
+
 mkdir -p /home/liveuser/.config
 cp -a /etc/skel/. /home/liveuser/
 chown -R liveuser:liveuser /home/liveuser
