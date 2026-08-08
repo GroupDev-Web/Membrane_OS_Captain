@@ -1,9 +1,8 @@
 [Compositing]
-Backend=OpenGL
-Enabled=true
+Enabled=false
 
 [Plugins]
-blurEnabled=true
+blurEnabled=false
 overviewEnabled=true
 
 [Windows]
