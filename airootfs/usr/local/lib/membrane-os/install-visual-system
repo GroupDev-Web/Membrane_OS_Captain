@@ -100,7 +100,7 @@ write_colors MembraneDark '20,24,35' '31,37,52' '239,243,255' '105,134,255' '151
 write_colors MembraneLight '245,247,252' '229,234,245' '25,31,45' '76,103,220' '91,101,124'
 
 make_plasma_theme() {
- local id="$1" base="$2" opacity="$3"
+ local id="$1" base="$2" opacity="$3" palette_bg="$4" foreground="$5" inactive="$6" accent="$7"
  local dir="/usr/share/plasma/desktoptheme/$id"
  mkdir -p "$dir/widgets"
  cat > "$dir/metadata.json" <<EOF
@@ -109,9 +109,39 @@ EOF
  cat > "$dir/widgets/panel-background.svg" <<EOF
 <svg xmlns="http://www.w3.org/2000/svg" width="64" height="64"><rect id="center" x="8" y="8" width="48" height="48" rx="14" fill="$base" fill-opacity="$opacity"/><path id="hint-stretch-borders" d="M31 31h2v2h-2z" fill="#000" fill-opacity="0"/><path id="hint-compose-over-border" d="M0 0h1v1H0z"/></svg>
 EOF
+ cat > "$dir/colors" <<EOF
+[Colors:Window]
+BackgroundNormal=$palette_bg
+ForegroundNormal=$foreground
+ForegroundInactive=$inactive
+[Colors:View]
+BackgroundNormal=$palette_bg
+ForegroundNormal=$foreground
+ForegroundInactive=$inactive
+DecorationFocus=$accent
+DecorationHover=$accent
+[Colors:Button]
+BackgroundNormal=$palette_bg
+ForegroundNormal=$foreground
+ForegroundInactive=$inactive
+DecorationFocus=$accent
+DecorationHover=$accent
+[Colors:Selection]
+BackgroundNormal=$accent
+ForegroundNormal=255,255,255
+[Colors:Tooltip]
+BackgroundNormal=$palette_bg
+ForegroundNormal=$foreground
+[Colors:Complementary]
+BackgroundNormal=$palette_bg
+ForegroundNormal=$foreground
+ForegroundInactive=$inactive
+DecorationFocus=$accent
+DecorationHover=$accent
+EOF
 }
-make_plasma_theme MembraneLiquidGlueDark '#111725' .70
-make_plasma_theme MembraneLiquidGlueLight '#f5f8ff' .76
+make_plasma_theme MembraneLiquidGlueDark '#111725' .70 '17,23,37' '239,243,255' '166,176,201' '105,134,255'
+make_plasma_theme MembraneLiquidGlueLight '#f5f8ff' .76 '245,248,255' '24,30,44' '82,92,115' '76,103,220'
 
 make_lnf() {
  local id="$1" title="$2" scheme="$3" plasma="$4" wallpaper="$5" liquid="$6"
