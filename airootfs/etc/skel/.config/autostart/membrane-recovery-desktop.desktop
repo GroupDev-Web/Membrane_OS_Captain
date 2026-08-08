@@ -3,4 +3,4 @@ Type=Application
 Name=Membrane Recovery Desktop
 Exec=/usr/local/bin/membrane-recovery-desktop
 OnlyShowIn=KDE;
-X-KDE-autostart-phase=1
+X-KDE-autostart-phase=2
