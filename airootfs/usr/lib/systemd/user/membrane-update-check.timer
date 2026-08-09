@@ -1,0 +1,11 @@
+[Unit]
+Description=Check regularly for Membrane OS updates
+
+[Timer]
+OnStartupSec=3min
+OnUnitActiveSec=6h
+RandomizedDelaySec=10min
+Persistent=true
+
+[Install]
+WantedBy=timers.target

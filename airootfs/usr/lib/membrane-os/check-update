@@ -1,0 +1,17 @@
+#!/usr/bin/env bash
+set -u
+repo=GroupDev-Web/Membrane_OS_Captain
+state_dir="${XDG_STATE_HOME:-$HOME/.local/state}/membrane-update"
+mkdir -p "$state_dir"
+remote=$(curl -fsSL --connect-timeout 8 --max-time 20 -H 'Accept: application/vnd.github+json' \
+  "https://api.github.com/repos/$repo/commits/main" \
+  | sed -n 's/^[[:space:]]*"sha":[[:space:]]*"\([0-9a-f]\{40\}\)".*/\1/p' | head -n1) || exit 0
+[[ -n "$remote" ]] || exit 0
+local_revision=$(cat /etc/membrane-os/revision 2>/dev/null || echo unknown)
+dismissed=$(cat "$state_dir/dismissed" 2>/dev/null || true)
+[[ "$remote" == "$local_revision" || "$remote" == "$dismissed" ]] && exit 0
+if kdialog --title 'Membrane Update' --yesno $'A new Membrane OS update is ready.\n\nInstall it now?'; then
+  konsole --hold -e pkexec /usr/lib/membrane-os/install-update "$remote"
+else
+  printf '%s\n' "$remote" > "$state_dir/dismissed"
+fi

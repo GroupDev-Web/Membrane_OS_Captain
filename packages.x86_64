@@ -1,4 +1,5 @@
 base
+curl
 base-devel
 linux
 linux-firmware
