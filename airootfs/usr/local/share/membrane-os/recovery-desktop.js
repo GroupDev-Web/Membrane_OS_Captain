@@ -1,5 +1,9 @@
 var wallpaper = "file:///usr/share/wallpapers/MembraneOS-Dark/contents/images/1920x1080.png";
 
+if (desktops().length === 0) {
+    throw new Error("Plasma desktop containment is not ready");
+}
+
 for (var i = 0; i < desktops().length; i++) {
     var desktop = desktops()[i];
     desktop.wallpaperPlugin = "org.kde.image";

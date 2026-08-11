@@ -86,6 +86,14 @@ cp -a /usr/share/color-schemes/Membrane*.colors /mnt/usr/share/color-schemes/
 cp -a /usr/share/plasma/look-and-feel/org.membrane.* /mnt/usr/share/plasma/look-and-feel/
 cp -a /usr/share/plasma/desktoptheme/Membrane* /mnt/usr/share/plasma/desktoptheme/
 cp -a /usr/share/wallpapers/MembraneOS-* /mnt/usr/share/wallpapers/
+# The installed user's Plasma session uses the same delayed containment setup
+# as the live session.  Copy both halves; previously /etc/skel referenced a
+# helper that only existed on the ISO, so the installed wallpaper setup never
+# ran.
+install -Dm755 /usr/local/bin/membrane-recovery-desktop \
+  /mnt/usr/local/bin/membrane-recovery-desktop
+install -Dm644 /usr/local/share/membrane-os/recovery-desktop.js \
+  /mnt/usr/local/share/membrane-os/recovery-desktop.js
 echo "$host" > /mnt/etc/hostname
 ln -sf "/usr/share/zoneinfo/$timezone" /mnt/etc/localtime
 arch-chroot /mnt hwclock --systohc

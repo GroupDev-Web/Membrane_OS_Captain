@@ -14,6 +14,16 @@ window { background: linear-gradient(135deg,#dfe9f3,#ffffff); }
 .card { background: rgba(255,255,255,.86); border-radius: 18px; padding: 22px;
         box-shadow: 0 12px 35px rgba(20,35,60,.12); }
 .primary { background: #147ce5; color: white; border-radius: 10px; padding: 10px; }
+.recovery-action {
+    color: #172033;
+    background: rgba(255,255,255,.72);
+    border: 1px solid rgba(23,32,51,.12);
+    border-radius: 14px;
+    font-weight: 600;
+}
+.recovery-action:hover { background: rgba(255,255,255,.90); }
+.recovery-action:active { background: rgba(220,230,244,.94); }
+.recovery-action label { color: #172033; }
 """
 
 def run(*args): subprocess.Popen(args)
@@ -119,7 +129,9 @@ class Recovery(Gtk.Application):
         box.append(Gtk.Label(label="Repair, manage, or install Membrane OS Captain.",css_classes=["sub"]))
         grid=Gtk.Grid(column_spacing=12,row_spacing=12)
         actions=[("Install Membrane OS Captain",lambda *_:Installer(self).present()),("Open Disk Management",lambda *_:run("pkexec","gparted")),("Network Settings",lambda *_:run("plasmawindowed","org.kde.plasma.networkmanagement")),("Terminal",lambda *_:run("konsole")),("Restart",lambda *_:run("systemctl","reboot")),("Shut Down",lambda *_:run("systemctl","poweroff"))]
-        for i,(label,cb) in enumerate(actions): b=Gtk.Button(label=label); b.set_size_request(260,70); b.connect("clicked",cb); grid.attach(b,i%2,i//2,1,1)
+        for i,(label,cb) in enumerate(actions):
+            b=Gtk.Button(label=label, css_classes=["recovery-action"])
+            b.set_size_request(260,70); b.connect("clicked",cb); grid.attach(b,i%2,i//2,1,1)
         box.append(grid); win.set_content(box); win.present()
 
 app=Recovery(application_id="org.gptos.Recovery")

@@ -3,8 +3,10 @@ set -euo pipefail
 
 wallpaper=/usr/share/wallpapers/MembraneOS-Dark/contents/images/1920x1080.png
 
-# Plasma can take substantially longer than ten seconds to become available on
-# software-rendered VMs.  Keep trying until the shell is genuinely ready.
+# Plasma can accept D-Bus calls before it has created a desktop containment.
+# Keep retrying until evaluateScript can see and update a real desktop.  The JS
+# deliberately throws while desktops() is empty, so a no-op cannot be mistaken
+# for a successful wallpaper application.
 for _ in {1..120}; do
     if qdbus6 org.kde.plasmashell /PlasmaShell \
         org.kde.PlasmaShell.evaluateScript \
@@ -12,8 +14,14 @@ for _ in {1..120}; do
         # Plasma 6's supported wallpaper helper also updates existing
         # containments, including ones restored after the script above ran.
         if command -v plasma-apply-wallpaperimage >/dev/null 2>&1; then
-            plasma-apply-wallpaperimage "$wallpaper" || true
+            plasma-apply-wallpaperimage "$wallpaper"
         fi
+
+        # Persist the selected image before returning.  Plasma may rewrite the
+        # containment file asynchronously, so give it a moment to flush.
+        sleep 1
+        grep -Fq 'MembraneOS-Dark/contents/images/1920x1080.png' \
+            "$HOME/.config/plasma-org.kde.plasma.desktop-appletsrc" 2>/dev/null || continue
         exit 0
     fi
     sleep 1
