@@ -8,12 +8,37 @@ from gi.repository import Gtk, Adw, Gio, Gdk
 Adw.init()
 
 CSS = b"""
-window { background: linear-gradient(135deg,#dfe9f3,#ffffff); }
+/* The recovery session may use either Membrane theme.  Do not inherit its
+ * foreground palette: the installer is intentionally a light surface and
+ * must remain readable under Dark, Light, and both Liquid Glue variants. */
+window, dialog { background: linear-gradient(135deg,#dfe9f3,#ffffff); color: #172033; }
+window *, dialog * { color: #172033; }
+label, checkbutton, checkbutton label, grid label, box label { color: #172033; }
 .hero { font-size: 30px; font-weight: 700; color: #172033; }
 .sub { color: #566176; }
 .card { background: rgba(255,255,255,.86); border-radius: 18px; padding: 22px;
         box-shadow: 0 12px 35px rgba(20,35,60,.12); }
-.primary { background: #147ce5; color: white; border-radius: 10px; padding: 10px; }
+entry, passwordentry, combobox, dropdown {
+    color: #172033;
+    background: rgba(255,255,255,.96);
+    border: 1px solid rgba(23,32,51,.25);
+}
+entry text, passwordentry text, combobox *, dropdown * { color: #172033; }
+button {
+    color: #172033;
+    background: rgba(245,248,252,.96);
+    border: 1px solid rgba(23,32,51,.18);
+}
+button label { color: #172033; }
+checkbutton check {
+    color: #172033;
+    background: #ffffff;
+    border: 1px solid #566176;
+}
+checkbutton:checked check { color: #ffffff; background: #147ce5; }
+.primary { background: #147ce5; color: #ffffff; border-radius: 10px; padding: 10px; }
+.primary label { color: #ffffff; }
+.error, .error label { color: #a51d2d; }
 .recovery-action {
     color: #172033;
     background: rgba(255,255,255,.72);
